@@ -49,7 +49,66 @@ namespace Tests
             };
             Guid guid;
             var result = controller.Create(model);
-            Assert.That(result.StatusCode == (int)HttpStatusCode.Created && Guid.TryParse(result.Value.ToString(),out guid) );
+            Assert.That(result.StatusCode == (int)HttpStatusCode.Created && Guid.TryParse(result.Value.ToString(), out guid));
+        }
+
+        [Test]
+        public void TestCreateContactWithWrongEmailReturnsBadRequest()
+        {
+            var controller = new ContactsController();
+            var model = new ContactViewModel()
+            {
+                Name = "John Peres",
+                Birthday = "28/02/1998",
+                Email = "johnp.gmail.com",
+                Company = "Fake Company",
+                PersonalPhone = "1122009988",
+                WorkPhone = "1122119988",
+                Address = "Fake St. 123",
+                City = "Buenos Aires",
+                State = "Buenos Aires"
+            };
+            var result = controller.Create(model);
+            Assert.That(result.StatusCode == (int)HttpStatusCode.BadRequest);
+        }
+
+        [Test]
+        public void TestCreateContactWithWrongPhoneNumberReturnsBadRequest()
+        {
+            var controller = new ContactsController();
+            var model = new ContactViewModel()
+            {
+                Name = "John Peres",
+                Birthday = "28/02/1998",
+                Email = "johnp@gmail.com",
+                Company = "Fake Company",
+                PersonalPhone = "This is a wrong phone number",
+                WorkPhone = "1122119988",
+                Address = "Fake St. 123",
+                City = "Buenos Aires",
+                State = "Buenos Aires"
+            };
+            var result = controller.Create(model);
+            Assert.That(result.StatusCode == (int)HttpStatusCode.BadRequest);
+        }
+        [Test]
+        public void TestCreateContactWithWrongBirthDayReturnsBadRequest()
+        {
+            var controller = new ContactsController();
+            var model = new ContactViewModel()
+            {
+                Name = "John Peres",
+                Birthday = "This is a wrong bitrhday",
+                Email = "johnp@gmail.com",
+                Company = "Fake Company",
+                PersonalPhone = "1122009988",
+                WorkPhone = "1122119988",
+                Address = "Fake St. 123",
+                City = "Buenos Aires",
+                State = "Buenos Aires"
+            };
+            var result = controller.Create(model);
+            Assert.That(result.StatusCode == (int)HttpStatusCode.BadRequest);
         }
     }
 }
