@@ -57,7 +57,7 @@ namespace WebApi.Controllers
 
         // POST api/Contacts/Create
         [HttpPost("Create")]
-        public ActionResult Create([FromBody] ContactViewModel contact)
+        public ObjectResult Create([FromBody] ContactViewModel contact)
         {
             CheckModel(contact);
             if (ModelState.IsValid)
@@ -65,7 +65,7 @@ namespace WebApi.Controllers
                 var id = Guid.NewGuid();
                 var entity = GetContact(contact, id);
                 ContactsRepository.Create(entity);
-                return StatusCode((int)HttpStatusCode.Created);
+                return StatusCode((int)HttpStatusCode.Created,id.ToString());
             }
             return BadRequest(ModelState);
         }
@@ -218,7 +218,7 @@ namespace WebApi.Controllers
             }
             if (!IsPhoneNumber(model.PersonalPhone))
             {
-                ModelState.AddModelError("WorkPhone", "The personal phone format is not valid");
+                ModelState.AddModelError("PersonalPhone", "The personal phone format is not valid");
             }
         }
 
@@ -237,7 +237,7 @@ namespace WebApi.Controllers
 
         public static bool IsPhoneNumber(string number)
         {
-            return Regex.Match(number, @"^(\+[0-9]{9})$").Success;
+            return Regex.Match(number, @"^\d+$").Success;
         }
     }
 }
