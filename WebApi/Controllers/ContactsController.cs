@@ -146,6 +146,22 @@ namespace WebApi.Controllers
             return new JsonResult(contactModel);
         }
 
+        [HttpGet("GetContactsByCity")]
+        public ActionResult GetByCity(string city)
+        {
+            var contacts = ContactsRepository.FindByCondition(x => x.City == city)
+                .Select(x => GetContactModel(x));
+            return new JsonResult(contacts);
+        }
+
+        [HttpGet("GetContactsByState")]
+        public ActionResult GetByState(string state)
+        {
+            var contacts = ContactsRepository.FindByCondition(x => x.State == state)
+                .Select(x => GetContactModel(x));
+            return new JsonResult(contacts);
+        }
+
         [HttpGet("GetByPhone")]
         public ActionResult GetByPhone(string phone, bool isWorkPhone)
         {
