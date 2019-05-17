@@ -21,7 +21,7 @@ namespace WebApi.Controllers
 
         public ContactsController() => ContactsRepository = new ContactsRepository();
 
-        // GET api/Contacts/5
+        // GET api/Contacts/847C8156-8191-4285-85C2-94C3C47E9B47
         [HttpGet("{id}")]
         public ActionResult<string> Get(string id)
         {
@@ -42,6 +42,7 @@ namespace WebApi.Controllers
             }
         }
 
+        // GET api/Contacts/GetProfilePicture/847C8156-8191-4285-85C2-94C3C47E9B47
         [HttpGet("GetProfilePicture/{id}")]
         public ActionResult<string> GetProfilePicture(string id)
         {
@@ -56,6 +57,19 @@ namespace WebApi.Controllers
         }
 
         // POST api/Contacts/Create
+        /*
+            Body example: {
+                "Name" : "Juan Perez",
+                "Company" : "Fake Company",
+                "WorkPhone" : "1122445566",
+                "PersonalPhone" : "1133445566",
+                "Birthday" : "20/02/1998",
+                "Address": "Venezuela 445",
+                "City" : "Buenos Aires",
+                "State" : "Buenos Aires",
+                "Email" : "test@gmail.com"
+            }
+         */
         [HttpPost("Create")]
         public ObjectResult Create([FromBody] ContactViewModel contact)
         {
@@ -70,6 +84,9 @@ namespace WebApi.Controllers
             return BadRequest(ModelState);
         }
 
+        // POST api/Contacts/UploadProfilePicture/847C8156-8191-4285-85C2-94C3C47E9B47
+        // Image sent as form-data
+        
         [HttpPost("UploadProfilePicture/{id}")]
         public void UploadProfilePicture(string id)
         {
@@ -107,7 +124,20 @@ namespace WebApi.Controllers
             }
         }
 
-        // PUT api/Contacts/Update/5
+        // PUT api/Contacts/Update/847C8156-8191-4285-85C2-94C3C47E9B47
+        /*
+            Body example: {
+                "Name" : "Juan Perez",
+                "Company" : "Fake Company",
+                "WorkPhone" : "1122445566",
+                "PersonalPhone" : "1133445566",
+                "Birthday" : "20/02/1998",
+                "Address": "Venezuela 445",
+                "City" : "Buenos Aires",
+                "State" : "Buenos Aires",
+                "Email" : "test@gmail.com"
+            }
+         */
         [HttpPut("/Update/{id}")]
         public ActionResult Update(string id, [FromBody] ContactViewModel contact)
         {
@@ -126,7 +156,7 @@ namespace WebApi.Controllers
             return BadRequest(ModelState);
         }
 
-        // DELETE api/Contacts/5
+        // DELETE api/Contacts/847C8156-8191-4285-85C2-94C3C47E9B47
         [HttpDelete("{id}")]
         public void Delete(string id)
         {
@@ -138,6 +168,8 @@ namespace WebApi.Controllers
             }
         }
 
+
+        // GET api/Contacts/GetByEmail?email=fake@gmail.com
         [HttpGet("GetByEmail")]
         public ActionResult GetByEmail(string email)
         {
@@ -146,6 +178,7 @@ namespace WebApi.Controllers
             return new JsonResult(contactModel);
         }
 
+        // GET api/Contacts/GetByCity?city=Chicago
         [HttpGet("GetContactsByCity")]
         public ActionResult GetByCity(string city)
         {
@@ -154,6 +187,7 @@ namespace WebApi.Controllers
             return new JsonResult(contacts);
         }
 
+        // GET api/Contacts/GetByState?state=California
         [HttpGet("GetContactsByState")]
         public ActionResult GetByState(string state)
         {
@@ -162,6 +196,7 @@ namespace WebApi.Controllers
             return new JsonResult(contacts);
         }
 
+        // GET api/Contacts/GetByPhone?phone=1122334455&isWorkPhone=false
         [HttpGet("GetByPhone")]
         public ActionResult GetByPhone(string phone, bool isWorkPhone)
         {
